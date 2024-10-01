@@ -8,7 +8,7 @@ The bootcamp was a 2-day program with a long exercise on the first day and two s
 
 # Exercise 1
 
-1. We first deploy the `RealEstateToken` and the `Issuer` contracts on Fuji by running 
+1. We first deploy the `RealEstateToken` (the contract for the tokenized property) and the `Issuer` (the contract that mocks the process of issuing the tokens, which has technical and regulatory complexities) contracts on Fuji by running:
 
    ```bash
    make deploy-fuji
@@ -21,21 +21,21 @@ The bootcamp was a 2-day program with a long exercise on the first day and two s
 
 2. Next, we [create](https://testnet.snowtrace.io/tx/0x169aff0192084fe5a35aab7b98ec9609252f3fb57e0139c0b78614fd10d8f8dc) the [subscription](https://functions.chain.link/fuji/12946) to [Chainlink Functions](https://functions.chain.link/fuji/new), [fund](https://testnet.snowtrace.io/tx/0x9f4b6b141f8707e87fb3962e8214e2ef238256179aaa804eddb2bb2052c2a686) it with 10 LINK and add as consumers both contracts deployed in step 1.
 
-3. Then, we [call](https://testnet.snowtrace.io/tx/0xb011236d30e2d77964abdab94ebc923671305da4bf88cf51f9acf9694aee5371) the `Issuer::issue()` function to ?????????
+3. Then, we [call](https://testnet.snowtrace.io/tx/0xb011236d30e2d77964abdab94ebc923671305da4bf88cf51f9acf9694aee5371) the `Issuer::issue()` function to create 20 tokens (ERC1155 standard):
 
    ```bash
    cast send --rpc-url $FUJI_RPC_URL --private-key $PRIVATE_KEY 0x768b85F01D666150968c0dB9C0F6538F0D274B00 "issue(address,uint256,uint64,uint32,bytes32)" 0x31e0FacEa072EE621f22971DF5bAE3a1317E41A4 20 12946 300000 0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000
    ```
    
-4. Next, we create a time-based [upkeep](https://automation.chain.link/fuji/30436671194206119093870703325584784783568175881191339496387692421682192750306) on [Chainlink Automations](https://automation.chain.link/).
-5. Once the upkeep is deployed, we [call](https://testnet.snowtrace.io/tx/0x8caf8da5083a7ba943884ae06c799d8a0b63d9ab6d2c885229dd9fd7508c0393) `RealEstateToken::setAutomationForwarder()` passing the address of the upkeep's forwarder as a parameter.
+4. Next, we create a time-based [upkeep](https://automation.chain.link/fuji/30436671194206119093870703325584784783568175881191339496387692421682192750306) on [Chainlink Automations](https://automation.chain.link/), which shall keep the price of the property updated in the smart contract by calling `RealEstateToken::updatePriceDetails()` every day at 00:00 UTC.
+5. Once the upkeep is deployed, we [call](https://testnet.snowtrace.io/tx/0x8caf8da5083a7ba943884ae06c799d8a0b63d9ab6d2c885229dd9fd7508c0393) `RealEstateToken::setAutomationForwarder()` passing the address of the upkeep's forwarder as a parameter, so that only the forwarder can call the `RealEstateToken::updatePriceDetails()` function.
 8. Finally, we deploy the `RealEstateToken` contract on Sepolia, so that the tokenized property can be transferred cross-chain:
 
    ```bash
    make deploy-sepolia
    ```
 
-   Note that this time the command will only deplyo the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. You can see the deployed contract [here](https://sepolia.etherscan.io/address/0x99a99feea7c519068c40385e50f07fb066360f01).
+   Note that this time the command will only deplyo the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. You can see the deployed contract [here]().
 
 # Exercise 2
 
