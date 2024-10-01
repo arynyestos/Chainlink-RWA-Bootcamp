@@ -38,7 +38,8 @@ The bootcamp was a 2-day program with a long exercise on the first day and two s
    Note that this time the command will only deplyo the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. You can see the deployed contract [here]().
 
 # Exercise 2
-
+RWA LENDING: 0xcB383df8f26a4612a7b545F85d1B58eA46F277cA 
+ENGLISH AUCTION: 0xd199CC89c2fb50C1AB07c08b533F74F4186b41E2 
 1. Now we can call `allowlistSourceChain` on the Sepolia contract to make Fuji an allowed source chain. On Sepolia verification did work, so we can just use Etherscan:
    
    ![image](https://github.com/user-attachments/assets/5e99a325-8c55-434d-a800-bd326c353c44)
