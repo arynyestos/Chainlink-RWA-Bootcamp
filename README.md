@@ -61,6 +61,6 @@ This time we decided to deploy the contract without using a script, with the fol
 forge create src/use-cases/EnglishAuction.sol:EnglishAuction --rpc-url $FUJI_RPC_URL --private-key $PRIVATE_KEY --constructor-args 0xD070e42168928faDA13acBD708281c64D5087A39
 ```
 
-The contract was deployed to this [address](https://testnet.snowtrace.io/address/0xd199CC89c2fb50C1AB07c08b533F74F4186b41E2 /contract/43113/code#loaded).
+The contract was deployed to this [address](https://testnet.snowtrace.io/address/0xd199CC89c2fb50C1AB07c08b533F74F4186b41E2/contract/43113/code#loaded).
 
 
