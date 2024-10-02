@@ -29,19 +29,21 @@ On exercise 1, we created a fractional NFT representing a real estate property, 
    cast send --rpc-url $FUJI_RPC_URL --private-key $PRIVATE_KEY 0x768b85F01D666150968c0dB9C0F6538F0D274B00 "issue(address,uint256,uint64,uint32,bytes32)" 0x31e0FacEa072EE621f22971DF5bAE3a1317E41A4 20 12946 300000 0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000
    ```
    
-4. Next, we create a time-based [upkeep](https://automation.chain.link/fuji/30436671194206119093870703325584784783568175881191339496387692421682192750306) on [Chainlink Automations](https://automation.chain.link/), which shall keep the price of the property updated in the smart contract by calling `RealEstateToken::updatePriceDetails()` every day at 00:00 UTC.
+4. Next, we create a time-based [upkeep](https://automation.chain.link/fuji/30436671194206119093870703325584784783568175881191339496387692421682192750306) on [Chainlink Automations](https://automation.chain.link/), which shall keep the price of the property updated in the smart contract by calling `RealEstateToken::updatePriceDetails()` every day at 00:00 UTC. You can find [here](https://testnet.snowtrace.io/tx/0x78c104109e286ed5e78e97e4bbf38638bf178a0dfc47300177335e7c438df1f3) the first call the upkeep made to the `updatePriceDetails` function at 00:00 hours on the 2nd of Octobre of 2024.
+   
 5. Once the upkeep is deployed, we [call](https://testnet.snowtrace.io/tx/0x8caf8da5083a7ba943884ae06c799d8a0b63d9ab6d2c885229dd9fd7508c0393) `RealEstateToken::setAutomationForwarder()` passing the address of the upkeep's forwarder as a parameter, so that only the forwarder can call the `RealEstateToken::updatePriceDetails()` function.
-8. Finally, we deploy the `RealEstateToken` contract on Sepolia, so that the tokenized property can be transferred cross-chain:
+   
+6. Finally, we deploy the `RealEstateToken` contract on Sepolia, so that the tokenized property can be transferred cross-chain:
 
    ```bash
    make deploy-sepolia
    ```
 
-   Note that this time the command will only deplyo the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. You can see the deployed contract [here](). NO PUDIMOS DESPLEGAR, QUEDA PENDIENTE
+   Note that this time the command will only deploy the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. This is because the issuer contract only needs to be deployed in the RealEstateToken's main chain, while the RealEstateToken contract itself has to exist on all the chains to which the token may be transferred. You can see the deployed contract [here](). NO PUDIMOS DESPLEGAR, QUEDA PENDIENTE
 
 ### Exercise 2
 
-On the second exercise, the goal was to create a use case of how the tokenized real world asset could be used. In this first use case, a lending smart contract was created that allowed to take a loan of up to 60% of the tokens used as collateral. This way, just by owning a portion of the fractionally tokenized asset, money could be borrowed against it. 
+On the second exercise, the goal was to create a use case of how the tokenized real world asset could be used. In this first use case, a lending smart contract was created that allowed to take a loan of up to 60% of the tokens used as collateral. This way, just by owning a portion of the fractionally tokenized asset, money could be borrowed against it. If the value of those tokens (checked daily by the upkeep) fell below 75% of their original value, the collateral would be forfeited.
 
 To deploy it, we created another deployment script and run the following command:
 
