@@ -1,6 +1,6 @@
 # Chainlink RWA Bootcamp
 
-In October of 2024 I attended Chainlink's 2-day bootcamp on tokenized real world assets. In this README I will explain how to complete the exercises of the bootcamp using Foundry, instead of Remix, which was the IDE employed during the online lessons. To follow this, reading the courses [GitBook](https://cll-devrel.gitbook.io/tokenized-rwa-bootcamp-2024) first would be necessary.
+In October of 2024 I attended Chainlink's 2-day bootcamp on tokenized real world assets. In this README I will explain how to complete the exercises of the bootcamp using Foundry, instead of Remix, which was the IDE employed during the online lessons. To follow this, make sure to take a look at the course's [GitBook](https://cll-devrel.gitbook.io/tokenized-rwa-bootcamp-2024) first!
 
 The bootcamp was a 2-day program with a long exercise on the first day and two shorter ones on the second. All three are explained below.
 
