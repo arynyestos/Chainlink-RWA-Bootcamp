@@ -8,6 +8,8 @@ The bootcamp was a 2-day program with a long exercise on the first day and two s
 
 ### Exercise 1
 
+On exercise 1, we created a fractional NFT representing a real estate property, leveraging the ERC-1155 standard. We also made it a cross-chain asset, leveraging Chainlink CCIP. The issuance of the token, which in a real use case would entail technical and legal complexities, was out of scope for this course. The steps to complete the exercise with the code in this repo are as follows:
+
 1. We first deploy the `RealEstateToken` (the contract for the tokenized property) and the `Issuer` (the contract that mocks the process of issuing the tokens, which has technical and regulatory complexities) contracts on Fuji by running:
 
    ```bash
@@ -35,46 +37,30 @@ The bootcamp was a 2-day program with a long exercise on the first day and two s
    make deploy-sepolia
    ```
 
-   Note that this time the command will only deplyo the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. You can see the deployed contract [here]().
+   Note that this time the command will only deplyo the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. You can see the deployed contract [here](). NO PUDIMOS DESPLEGAR, QUEDA PENDIENTE
 
 ### Exercise 2
-RWA LENDING: 0xcB383df8f26a4612a7b545F85d1B58eA46F277cA 
-ENGLISH AUCTION: 0xd199CC89c2fb50C1AB07c08b533F74F4186b41E2 
-1. Now we can call `allowlistSourceChain` on the Sepolia contract to make Fuji an allowed source chain. On Sepolia verification did work, so we can just use Etherscan:
-   
-   ![image](https://github.com/user-attachments/assets/5e99a325-8c55-434d-a800-bd326c353c44)
-   
-   Transaction [here](https://sepolia.etherscan.io/tx/0x186ed6facbd1f0008315a586e4c133a65799336015e89c3574f699335c95a5e3).
 
-10. Similarly, we call `allowlistSender` passing the address of the Fuji contract:
+On the second exercise, the goal was to create a use case of how the tokenized real world asset could be used. In this first use case, a lending smart contract was created that allowed to take a loan of up to 60% of the tokens used as collateral. This way, just by owning a portion of the fractionally tokenized asset, money could be borrowed against it. 
 
-   ![image](https://github.com/user-attachments/assets/19f164a2-cd5b-4945-b443-f905045e85b9)
-   
-   Transaction [here](https://sepolia.etherscan.io/tx/0x04ab1237fb28396362cb1a450ebbcb53983c51848bfff943c3cb50dd5de72ca2).
+To deploy it, we created another deployment script and run the following command:
 
-11. The next step is to call `setSimRevert` to simulate a revert on the next call. Transaction [here](https://sepolia.etherscan.io/tx/0x9ff07f1119be3631b8a12462b5b4e95fa2ea4fbbcbeadbd3331346d964e26b6d).
+```bash
+forge script script/DeployRwaLending.s.sol --rpc-url $FUJI_RPC_URL --private-key $PRIVATE_KEY --broadcast --verifier-url $SNOWTRACE_VERIFIER_URL --etherscan-api-key $SNOWTRACE_API_KEY
+```
 
-12. Now we fund the Fuji contract with 0.002 BnM and 0.5 LINK and call `sendMessagePayLINK`:
+The contract was deployed to this [address](https://testnet.snowtrace.io/address/0xcB383df8f26a4612a7b545F85d1B58eA46F277cA/contract/43113/code#loaded).
 
-   ```bash
-   cast send  --rpc-url $FUJI_RPC_URL --private-key $PRIVATE_KEY 0xFa4fAC09d834ADb9e4457a64b420F26966d981a0 "sendMessagePayLINK(uint64,address,string,address,uint256)" 16015286601757825753 0x99a99feea7c519068c40385e50f07fb066360f01 "Hello World!" 0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4 1000000000000000
-   ```
-   This sends a CCIP message with ID 0xde5424ec8ba232c2e097d4fcef9c65473b404f15477b00ffce286fd2f012b95d. You can see the transaction [here](https://testnet.snowtrace.io/tx/0x1532eeeb481049d16515bf15707924cfeebcc7225749cd35361c6b5ab0391cfe).
+### Exercise 3
 
-11. Next is to call getFailedMessages on the Sepolia contract. It returns the message ID and a 1, the error code indicating failure.
+On the third exercise, we studied a second use case, an English auction. The idea was to make it possible for the owner of the Real Estate Tokens to sell them on auction. Check out the code in the repo or the GitBook linked above for more details.
 
-   ![image](https://github.com/user-attachments/assets/5fb7a808-03c8-47f8-987b-15c60eaa1b76)
+This time we decided to deploy the contract without using a script, with the following command:
 
-11. Finally, we call `retryFailedMessage` on the Fuji contract to retrieve the BnM tokens that got locked because of the (simulated) failure:
+```bash
+forge create src/use-cases/EnglishAuction.sol:EnglishAuction --rpc-url $FUJI_RPC_URL --private-key $PRIVATE_KEY --constructor-args 0xD070e42168928faDA13acBD708281c64D5087A39
+```
 
-   ```bash
-   cast send --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY 0x99a99feea7c519068c40385e50f07fb066360f01 "retryFailedMessage(bytes32,address)" 0xde5424ec8ba232c2e097d4fcef9c65473b404f15477b00ffce286fd2f012b95d 0xFa4fAC09d834ADb9e4457a64b420F26966d981a0
-   ```
-   
-   Transaction [here](https://sepolia.etherscan.io/tx/0xac97dc83c3d47041ea9c2b967350769d8b5a5e6f74801475800ebc54a23ec6d9).
+The contract was deployed to this [address](https://testnet.snowtrace.io/address/0xd199CC89c2fb50C1AB07c08b533F74F4186b41E2 /contract/43113/code#loaded).
 
-11. By calling `getFailedMessages` again on the Sepolia contract, we can see the erro code is now 0, indicating the issue has been resolved:
-
-   ![image](https://github.com/user-attachments/assets/9a8ce246-cdbb-45a9-9552-f433e221dc10)
- 
 
