@@ -39,7 +39,13 @@ On exercise 1, we created a fractional NFT representing a real estate property, 
    make deploy-sepolia
    ```
 
-   Note that this time the command will only deploy the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. This is because the issuer contract only needs to be deployed in the RealEstateToken's main chain, while the RealEstateToken contract itself has to exist on all the chains to which the token may be transferred. You can see the deployed contract [here](). NO PUDIMOS DESPLEGAR, QUEDA PENDIENTE
+   Note that this time the command will only deploy the `RealEstateToken` contract due to the chain sensitive conditions set up in the deployment script. This is because the issuer contract only needs to be deployed in the RealEstateToken's main chain, while the RealEstateToken contract itself has to exist on all the chains to which the token may be transferred. You can see the deployed contract [here]().
+
+Note: Due to unusually high gas prices on Sepolia (see the screenshot below), deploying the contract there was not possible. The link will be updated whenever possible.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b019aa11-eb17-4185-8a40-1b08765a6197">
+</p>
 
 ### Exercise 2
 
