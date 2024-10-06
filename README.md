@@ -44,7 +44,7 @@ On exercise 1, we created a fractional NFT representing a real estate property, 
 Note: Due to unusually high gas prices on Sepolia (see the screenshot below), deploying the contract there was not possible. The link will be updated whenever possible.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b019aa11-eb17-4185-8a40-1b08765a6197">
+  <img src="https://github.com/user-attachments/assets/4cf36ad6-91dd-4f74-b6b8-468fbe8369f5">
 </p>
 
 ### Exercise 2
